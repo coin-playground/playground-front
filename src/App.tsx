@@ -1,34 +1,36 @@
-import { useState } from 'react'
-import ChartPage from './pages/ChartPage'
-import './App.css'
+import { Home } from "./pages/Home"
+import {Header} from "./components/header";
+import {
+    Outlet,
+    Route,
+    BrowserRouter as Router,
+    Routes,
+} from 'react-router-dom';
+import {MyPage} from "./pages/MyPage.tsx";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('home')
 
-  return (
-    <>
-      <nav style={{ padding: '20px', borderBottom: '1px solid #ccc' }}>
-        <button
-          onClick={() => setCurrentPage('home')}
-          style={{ marginRight: '10px' }}
-        >
-          홈
-        </button>
-        <button onClick={() => setCurrentPage('chart')}>
-          차트
-        </button>
-      </nav>
-
-      {currentPage === 'home' && (
-        <div style={{ padding: '20px' }}>
-          <h1>Vite + React</h1>
-          <p>차트 페이지로 이동해서 Lightweight Charts를 확인해보세요!</p>
-        </div>
-      )}
-
-      {currentPage === 'chart' && <ChartPage />}
-    </>
-  )
+    return (
+        <Router>
+            <Routes>
+                <Route path='/' element={<Layout />}>
+                    <Route index element={<Home />} />
+                    <Route path={'mp'} element={<MyPage />}/>
+                </Route>
+            </Routes>
+        </Router>
+    );
 }
 
 export default App
+
+function Layout() {
+    return (
+        <>
+            <Header />
+            <main className='mt-[60px] flex flex-col gap-4'>
+                <Outlet />
+            </main>
+        </>
+    );
+}
